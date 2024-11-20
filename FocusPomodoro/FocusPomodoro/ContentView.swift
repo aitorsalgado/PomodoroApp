@@ -8,10 +8,24 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State var timeRemaining = 25.00
+    private let timeLimit: TimeInterval = 25.00
+    private var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    
     var body: some View {
         VStack {
-            Text("25:00")
-            Text("Focus")
+            Text(String(format: "%.2f", timeRemaining))
+                .font(.largeTitle)
+                .fontWeight(.bold)
+                .onReceive(timer) { _ in
+                    if timeRemaining >= 0 {
+                        timeRemaining -= 0.01
+                    }
+                }
+            Text("")
+            Text("¡Focus Time!")
+                .font(.title)
+            
         }
         .padding()
         HStack {
@@ -22,6 +36,7 @@ struct ContentView: View {
             }
             .buttonStyle(.bordered)
             .tint(.red)
+            
             Button {
                 
             } label: {
